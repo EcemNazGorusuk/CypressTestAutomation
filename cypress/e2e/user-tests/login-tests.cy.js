@@ -3,23 +3,22 @@
 
 //describe-> testraildaki sectiona, it-> test case'e karşılık gelir.
 describe("Login Test", () => {
- 
+//id ya da name yerine data-uia alanı da verebiliriz
+
   it("Login Successful", () => { //it.only ile sadece bu testi çalıştırabiliriz
-    cy.visit("https://www.netflix.com/login"); //test edilecek siteye yönlendirme işlemi
-    cy.get("[name='userLoginId']").type("ecemnazgorusuk@gmail.com"); //e-posta inputu tespit edilir ve input alanı doldurulur
-    cy.get("[data-uia='password-field']").type("ecemnaz12345"); // name yerine data-uia alanı da verebiliriz
-    cy.get("[data-uia='login-submit-button']").click();
-    cy.wait(3000); //sleep thread ile aynı işlev
-    //başarılı giriş yapılınca home sayfasında bunu kanıtlayan metin ya da ögeyi görmek için:
-    cy.get("[id='signOut']").should("have.text", "Sign Out"); //have.text->actual result , diğer metin ->expected result
+    cy.visit("https://www.trendyol.com/giris"); //test edilecek siteye yönlendirme işlemi
+    cy.get("[id='login-email']").type("ecemnazgorusuk@gmail.com",{delay:300}); //delay:300 ms bekleme
+    cy.get("[id='login-password-input']").type("21012022Eb"); 
+    cy.get("[class='q-layout login'] button").click();
+    cy.get("[class='link account-user'] p").should('have.text',"Hesabım");
   });
 
-  it("Failed Login", () => {
-    cy.visit("https://www.netflix.com/login"); 
-    cy.get("[name='userLoginId']").type("ecemnazgorusuk@gmail.com"); 
-    cy.get("[data-uia='password-field']").type("ecemnaz");
-    cy.get("[data-uia='login-submit-button']").click();
-    cy.wait(3000);
-    cy.get("[data-uia='error-message-container+header']").should('have.text',"Incorrect password for ecemnazgorusuk@gmail.com");
-});
+  it("Login Unsuccessful", () => { 
+    cy.visit("https://www.trendyol.com/giris"); 
+    cy.get("[id='login-email']").type("ecemnazgorusuk@gmail.com",{delay:300}); 
+    cy.get("[id='login-password-input']").type("hatali"); 
+    cy.get("[class='q-layout login'] button").click();
+    cy.wait(3000); 
+    cy.get("[class='link account-user'] p").should('have.text',"Hesabım");
+  });
 });
