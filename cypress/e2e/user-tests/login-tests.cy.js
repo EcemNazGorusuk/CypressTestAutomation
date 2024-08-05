@@ -8,7 +8,7 @@ describe("Login Test", () => {
   it("Login Successful", () => { //it.only ile sadece bu testi çalıştırabiliriz
     cy.visit("https://www.trendyol.com/giris"); //test edilecek siteye yönlendirme işlemi
     cy.get("[id='login-email']").type("ecemnazgorusuk@gmail.com",{delay:300}); //delay:300 ms bekleme
-    cy.get("[id='login-password-input']").type("21012022Eb"); 
+    cy.get("[id='login-password-input']").type("."); 
     cy.get("[class='q-layout login'] button").click();
     cy.get("[class='link account-user'] p").should('have.text',"Hesabım");
   });
