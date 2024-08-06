@@ -17,11 +17,8 @@ class LoginPage{
         cy.wait(2000);
         return this;
     }
-    controlAccount(text){
-        cy.get("[class='breadcrumb'] li").eq(1).should('have.text',text);
-        return this;
-    }
-    errorAlert(){
+  
+    errorAlertDisplayedControl(){
         cy.get("[id='alert']",
             { timeout: 10000 })
             .should('be.visible')
