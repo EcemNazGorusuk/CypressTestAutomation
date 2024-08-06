@@ -42,7 +42,22 @@ describe("Login Test", () => {
                .errorAlertDisplayedControl();
     });
 
-   
+    it("Login requiredControl", () => {
+      loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
+               .fillEmail(" ");
+      cy.wait(1000);
+      loginPage.fillPassword(" ")
+               .clickLoginButton()
+               .errorAlertDisplayedControl()
+               .fillEmail("ecemnazgorusuk@gmail.com")
+               .clickLoginButton()
+               .errorAlertDisplayedControl()
+               .fillPassword("Ecem123")
+               .clickLoginButton();
+      homePage.controlAccount("Account");
+    });
+
+
     it("Login maximumCharacterControlForEmail", () => {
       loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
                .fillEmail("fmfmgfkmfkmfkmfkmfkvmfckmvkmvkcmvckmkmckmvkcvmkcmkcmvkcmvkcmkmvkcmvk@gmail.com");
