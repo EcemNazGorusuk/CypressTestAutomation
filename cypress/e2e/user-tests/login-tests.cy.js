@@ -3,22 +3,68 @@
 
 //describe-> testraildaki sectiona, it-> test case'e karşılık gelir.
 describe("Login Test", () => {
-//id ya da name yerine data-uia alanı da verebiliriz
+  //id ya da name yerine data-uia alanı da verebiliriz
 
-  it("Login Successful", () => { //it.only ile sadece bu testi çalıştırabiliriz
-    cy.visit("https://www.trendyol.com/giris"); //test edilecek siteye yönlendirme işlemi
-    cy.get("[id='login-email']").type("ecemnazgorusuk@gmail.com",{delay:300}); //delay:300 ms bekleme
-    cy.get("[id='login-password-input']").type("."); 
-    cy.get("[class='q-layout login'] button").click();
-    cy.get("[class='link account-user'] p").should('have.text',"Hesabım");
-  });
+    it("Login Successful", () => { //it.only ile sadece bu testi çalıştırabiliriz
+      cy.visit("https://demo.opencart.com/en-gb?route=account/login", { failOnStatusCode: false }); //test edilecek siteye yönlendirme işlemi
+      cy.get("[id='input-email']").type("ecemnazgorusuk@gmail.com",{delay:200}); //delay:200 ms bekleme
+      cy.wait(1000);
+      cy.get("[id='input-password']").type("Ecem123");
+      cy.get("[id='form-login'] button").click();
+      cy.get("[class='breadcrumb'] li").eq(1).should('have.text',"Account");
+    });
 
-  it("Login Unsuccessful", () => { 
-    cy.visit("https://www.trendyol.com/giris"); 
-    cy.get("[id='login-email']").type("ecemnazgorusuk@gmail.com",{delay:300}); 
-    cy.get("[id='login-password-input']").type("hatali"); 
-    cy.get("[class='q-layout login'] button").click();
-    cy.wait(3000); 
-    cy.get("[class='link account-user'] p").should('have.text',"Hesabım");
-  });
+   
+    it("Login Unsuccessful", () => {
+        cy.visit("https://demo.opencart.com/en-gb?route=account/login", { failOnStatusCode: false }); //test edilecek siteye yönlendirme işlemi
+        cy.get("[id='input-email']").type("1ecemnazgorusuk@gmail.com",{delay:200}); //delay:200 ms bekleme
+        cy.wait(1000);
+        cy.get("[id='input-password']").type("dgdfgf");
+        cy.get("[id='form-login'] button").click();
+        //kaybolan toast error mesajları için:
+        cy.get("[id='alert']",
+             { timeout: 10000 })
+             .should('be.visible')
+             .and('contain.text', 'Warning: No match for E-Mail Address and/or Password.'); //mesajın içeriğini doğrula
+    });
+ 
+    it("Login IncorrectPassword", () => {
+        cy.visit("https://demo.opencart.com/en-gb?route=account/login", { failOnStatusCode: false }); //test edilecek siteye yönlendirme işlemi
+        cy.get("[id='input-email']").type("ecemnazgorusuk@gmail.com",{delay:200}); //delay:200 ms bekleme
+        cy.wait(1000);
+        cy.get("[id='input-password']").type("dgdfgf");
+        cy.get("[id='form-login'] button").click();
+        //kaybolan toast error mesajları için:
+        cy.get("[id='alert']",
+             { timeout: 10000 })
+             .should('be.visible')
+             .and('contain.text', 'Warning: No match for E-Mail Address and/or Password.');
+    });
+
+   
+    it("Login maximumCharacterControlForEmail", () => {
+        cy.visit("https://demo.opencart.com/en-gb?route=account/login", { failOnStatusCode: false }); //test edilecek siteye yönlendirme işlemi
+        cy.get("[id='input-email']").type("fmfmgfkmfkmfkmfkmfkvmfckmvkmvkcmvckmkmckmvkcvmkcmkcmvkcmvkcmkmvkcmvk@gmail.com",{delay:100}); //delay:200 ms bekleme
+        cy.wait(1000);
+        cy.get("[id='input-password']").type("Ecem123");
+        cy.get("[id='form-login'] button").click();
+        //kaybolan toast error mesajları için:
+        cy.get("[id='alert']",
+             { timeout: 10000 })
+             .should('be.visible')
+             .and('contain.text', 'Warning: No match for E-Mail Address and/or Password.'); 
+    });
+
+    it("Login maximumCharacterControlForPassword", () => {
+        cy.visit("https://demo.opencart.com/en-gb?route=account/login", { failOnStatusCode: false }); //test edilecek siteye yönlendirme işlemi
+        cy.get("[id='input-email']").type("ecemnazgorusuk@gmail.com",{delay:100}); //delay:200 ms bekleme
+        cy.wait(1000);
+        cy.get("[id='input-password']").type("fmfmgfkmfkmfkmfkmfkvmfckmvkmvkcmvckmkmckmvkcvmkcmkcmvkcmvkcmkmvkcmvk");
+        cy.get("[id='form-login'] button").click();
+        //kaybolan toast error mesajları için:
+        cy.get("[id='alert']",
+             { timeout: 10000 })
+             .should('be.visible')
+             .and('contain.text', 'Warning: No match for E-Mail Address and/or Password.'); 
+    });
 });
