@@ -7,7 +7,6 @@ import LoginPage from "../pages/loginPage";
 //describe-> testraildaki sectiona, it-> test case'e karşılık gelir.
 describe("Login Test", () => {
   
-
    //interfaceler burada tanımlanır
    const loginPage=new LoginPage();
    const homePage=new HomePage();
@@ -32,7 +31,7 @@ describe("Login Test", () => {
                .errorAlertDisplayedControl();
     });
  
-    it("Login IncorrectEmail", () => {
+    it("Login Incorrect Email", () => {
       loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
                .fillEmail("1ecemnazgorusuk@gmail.com");
       cy.wait(1000);
@@ -42,7 +41,7 @@ describe("Login Test", () => {
                .errorAlertDisplayedControl();
     });
 
-    it("Login requiredControl", () => {
+    it("Login Required Control", () => {
       loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
                .fillEmail(" ");
       cy.wait(1000);
@@ -58,7 +57,7 @@ describe("Login Test", () => {
     });
 
 
-    it("Login maximumCharacterControlForEmail", () => {
+    it("Login Maximum Character Control For Email", () => {
       loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
                .fillEmail("fmfmgfkmfkmfkmfkmfkvmfckmvkmvkcmvckmkmckmvkcvmkcmkcmvkcmvkcmkmvkcmvk@gmail.com");
       cy.wait(1000);
@@ -68,7 +67,7 @@ describe("Login Test", () => {
                .errorAlertDisplayedControl();
     });
 
-    it("Login maximumCharacterControlForPassword", () => {
+    it("Login Maximum Character Control For Password", () => {
       loginPage.visit("https://demo.opencart.com/en-gb?route=account/login")
                .fillEmail("ecemnazgorusuk@gmail.com");
       cy.wait(1000);
